@@ -11,7 +11,6 @@ import {
 const TokenDelegation = () => {
   const { account, isConnected } = useWallet();
   const [employeeAddress, setEmployeeAddress] = useState('');
-  const [tokenAddress, setTokenAddress] = useState('');
   const [amount, setAmount] = useState('');
   const [period, setPeriod] = useState('86400'); // 1 día en segundos
   const [duration, setDuration] = useState('604800'); // 1 semana en segundos
@@ -25,7 +24,7 @@ const TokenDelegation = () => {
       return;
     }
 
-    if (!employeeAddress || !tokenAddress || !amount) {
+    if (!employeeAddress || !amount) {
       setError('Please fill in all required fields');
       return;
     }
@@ -43,7 +42,6 @@ const TokenDelegation = () => {
       // Solicitar permisos de transferencia periódica
       const permissions = await requestPeriodicTransferPermission(
         employeeAddress,
-        tokenAddress,
         amount,
         parseInt(period),
         parseInt(duration)
@@ -51,7 +49,7 @@ const TokenDelegation = () => {
 
       setDelegationResult({
         success: true,
-        message: `Successfully delegated ${amount} tokens to ${employeeAddress} every ${parseInt(period)/86400} days for ${parseInt(duration)/86400} days`,
+        message: `Successfully delegated ${amount} USDC to ${employeeAddress} every ${parseInt(period)/86400} days for ${parseInt(duration)/86400} days`,
         permissions: permissions
       });
     } catch (err: any) {
@@ -65,15 +63,15 @@ const TokenDelegation = () => {
   return (
     <div className="w-full max-w-2xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">
-        Token Delegation for Employees
+        USDC Delegation for Employees
       </h2>
 
       <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
         <h3 className="font-semibold text-blue-800 dark:text-blue-200 mb-2">How it works:</h3>
         <ul className="text-blue-700 dark:text-blue-300 text-sm list-disc pl-5 space-y-1">
-          <li>Authorize the app to send tokens to your employees on your behalf</li>
+          <li>Authorize the app to send USDC to your employees on your behalf</li>
           <li>Set the amount, frequency, and duration of the transfers</li>
-          <li>All transfers are recorded on the blockchain for transparency</li>
+          <li>All transfers are recorded on Base Sepolia for transparency</li>
           <li>You maintain full control and can revoke permissions anytime</li>
         </ul>
       </div>
@@ -105,23 +103,10 @@ const TokenDelegation = () => {
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            Token Contract Address
-          </label>
-          <input
-            type="text"
-            value={tokenAddress}
-            onChange={(e) => setTokenAddress(e.target.value)}
-            placeholder="0x..."
-            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-          />
-        </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Amount per Period
+              Amount per Period (USDC)
             </label>
             <input
               type="number"
@@ -185,7 +170,7 @@ const TokenDelegation = () => {
                 Processing...
               </>
             ) : (
-              'Delegate Tokens'
+              'Delegate USDC'
             )}
           </button>
         </div>
@@ -194,11 +179,12 @@ const TokenDelegation = () => {
       <div className="mt-8 text-sm text-gray-600 dark:text-gray-400">
         <h3 className="font-medium mb-2">Important Information:</h3>
         <ul className="list-disc pl-5 space-y-1">
-          <li>You retain full control over your tokens and can revoke permissions anytime</li>
-          <li>All delegations are recorded on the blockchain for transparency</li>
+          <li>You retain full control over your USDC and can revoke permissions anytime</li>
+          <li>All delegations are recorded on Base Sepolia for transparency</li>
           <li>Only authorize amounts you're comfortable with being transferred</li>
           <li>Make sure the employee address is correct before confirming</li>
           <li>You need MetaMask Flask 13.5.0+ and a Smart Account to use this feature</li>
+          <li>Using USDC on Base Sepolia network (chainId: 84532)</li>
         </ul>
       </div>
     </div>

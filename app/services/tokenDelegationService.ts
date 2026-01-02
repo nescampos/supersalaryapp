@@ -1,13 +1,36 @@
-'use client';
-
 import { createWalletClient, custom } from 'viem';
-import { sepolia } from 'viem/chains';
 import { erc7715ProviderActions } from '@metamask/smart-accounts-kit/actions';
-import { createPublicClient, http } from 'viem';
+import { createPublicClient, http, Chain } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { toMetaMaskSmartAccount, Implementation } from '@metamask/smart-accounts-kit';
 import { encodeFunctionData, erc20Abi, parseUnits } from 'viem';
 import { getSmartAccountsEnvironment } from '@metamask/smart-accounts-kit';
+
+// Definición de Base Sepolia como una cadena personalizada
+export const baseSepolia: Chain = {
+  id: 84532,
+  name: 'Base Sepolia',
+  network: 'base-sepolia',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'Ether',
+    symbol: 'ETH',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://sepolia.base.org'],
+    },
+    public: {
+      http: ['https://sepolia.base.org'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Basescan',
+      url: 'https://sepolia.basescan.org',
+    },
+  },
+};
 
 // Cliente de wallet para solicitar permisos
 export const getWalletClient = () => {
@@ -22,7 +45,7 @@ export const getWalletClient = () => {
 // Cliente público para interactuar con la blockchain
 export const getPublicClient = () => {
   return createPublicClient({
-    chain: sepolia,
+    chain: baseSepolia,
     transport: http(),
   });
 };
@@ -37,7 +60,7 @@ export const isAccountUpgraded = async (address: string) => {
 
   if (code) {
     const delegatorAddress = `0x${code.substring(8)}`;
-    const statelessDelegatorAddress = getSmartAccountsEnvironment(sepolia.id)
+    const statelessDelegatorAddress = getSmartAccountsEnvironment(baseSepolia.id)
       .implementations
       .EIP7702StatelessDeleGatorImpl;
 
@@ -68,7 +91,6 @@ export const createSessionAccount = async () => {
 // Solicitar permisos de transferencia periódica
 export const requestPeriodicTransferPermission = async (
   employeeAddress: string,
-  tokenAddress: string,
   amount: string,
   periodDuration: number,
   duration: number
@@ -84,21 +106,21 @@ export const requestPeriodicTransferPermission = async (
 
   try {
     const grantedPermissions = await walletClient.requestExecutionPermissions([{
-      chainId: sepolia.id,
+      chainId: baseSepolia.id,
       expiry,
       signer: {
         type: "account",
         data: {
-          address: employeeAddress,
+          address: sessionAccount.address,
         },
       },
       permission: {
         type: "erc20-token-periodic",
         data: {
-          tokenAddress: tokenAddress as `0x${string}`,
+          tokenAddress: '0x036cbd53842c5426634e7929541ec2318f3dcf7e' as `0x${string}`, // USDC en Base Sepolia
           periodAmount,
           periodDuration,
-          justification: `Permission to transfer ${amount} tokens to ${employeeAddress} every ${periodDuration/86400} days`,
+          justification: `Permission to transfer ${amount} USDC to ${employeeAddress} every ${periodDuration/86400} days`,
         },
       },
       isAdjustmentAllowed: true,
