@@ -1,6 +1,6 @@
-# My Salary App
+# Super Salary App
 
-My Salary App is a decentralized application (dApp) that allows companies to securely and automatically delegate periodic token transfers (specifically USDC) to their employees' wallets as part of their salary compensation. The application uses MetaMask Smart Accounts Kit technology to enable automated transactions with advanced permissions.
+Super Salary App is a decentralized application (dApp) that allows companies to securely and automatically delegate periodic token transfers (specifically USDC) to their employees' wallets as part of their salary compensation. The application uses MetaMask Smart Accounts Kit technology to enable automated transactions with advanced permissions.
 
 ## Features
 
