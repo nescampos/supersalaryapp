@@ -104,7 +104,3 @@ npm start
 ## Contributions
 
 Contributions are welcome. Please open an issue or pull request in the repository.
-
-## License
-
-This project is licensed under the terms of the LICENSE (add specific details if applicable).
