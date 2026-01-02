@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My Salary App",
+  title: "Super Salary App",
   description: "Platform for salary management with MetaMask integration",
 };
 

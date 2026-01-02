@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Salary App
 
-## Getting Started
+My Salary App is a decentralized application (dApp) that allows companies to securely and automatically delegate periodic token transfers (specifically USDC) to their employees' wallets as part of their salary compensation. The application uses MetaMask Smart Accounts Kit technology to enable automated transactions with advanced permissions.
 
-First, run the development server:
+## Features
+
+- **Secure MetaMask connection**: The application connects to the company's wallet through MetaMask.
+- **Smart Accounts**: Support for upgrading regular accounts to Smart Accounts for advanced features.
+- **Token delegation**: Companies can delegate permissions to transfer USDC to employees periodically.
+- **Flexible configuration**: Companies can configure the amount, frequency, and duration of transfers.
+- **Blockchain transparency**: All transactions are recorded on the blockchain for transparency.
+- **Base Sepolia network**: The application operates on the Base Sepolia network (chainId 84532).
+- **USDC token**: Default use of USDC as the token for salary delegations.
+
+## Requirements
+
+- MetaMask Flask (version 13.5.0 or higher)
+- Modern web browser
+- User account with sufficient funds on Base Sepolia
+
+## How to use the application
+
+### 1. Initial setup
+
+1. Make sure you have the MetaMask Flask extension installed in your browser
+2. Open the application in your browser (by default at http://localhost:3000)
+3. Connect your company wallet using the "Connect MetaMask" button
+
+### 2. Upgrade to Smart Account (if needed)
+
+1. After connecting your wallet, verify if it's already a Smart Account
+2. If not, click "Check Status" to confirm
+3. If your account is not a Smart Account, click "Upgrade to Smart Account"
+4. Follow the instructions in MetaMask to complete the upgrade
+5. Wait for the transaction to be confirmed
+
+### 3. Configure token delegation
+
+1. Navigate to the "USDC Delegation for Employees" section
+2. Enter the employee's wallet address in "Employee Wallet Address"
+3. Specify the amount of USDC to transfer in "Amount per Period (USDC)"
+4. Select the transfer frequency in "Period (seconds)"
+5. Select the total duration of the permission in "Duration (seconds)"
+6. Click "Delegate USDC" to start the process
+
+### 4. Permission management
+
+- You can revoke permissions at any time through the MetaMask interface
+- The application does not have direct access to your funds, only acts with granted permissions
+- All permissions have an expiration date as configured
+
+## Technology used
+
+- **Next.js 16.1.1**: React framework for modern web applications
+- **React 19.2.3**: Library for user interfaces
+- **TypeScript**: Programming language with static typing
+- **MetaMask SDK**: Integration with MetaMask extension
+- **MetaMask Smart Accounts Kit**: Advanced Smart Account features
+- **Viem**: TypeScript library for EVM interactions
+- **Tailwind CSS**: Utility-first CSS framework for rapid styling
+
+## Development
+
+### Installation
+
+```bash
+npm install
+```
+
+### Running in development mode
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will run at [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Building
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+### Starting in production mode
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Security
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- The application does not store private keys or user funds
+- All transactions are performed with explicit permissions granted by the user
+- Smart Accounts allow automated transactions with security controls
+- Transfers are limited by amount, frequency, and duration as configured
 
-## Deploy on Vercel
+## Limitations
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Requires MetaMask Flask for Smart Account features
+- Currently operates only on Base Sepolia (test network)
+- Default token is USDC on Base Sepolia
+- Advanced features require the account to be a Smart Account
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contributions
+
+Contributions are welcome. Please open an issue or pull request in the repository.
+
+## License
+
+This project is licensed under the terms of the LICENSE (add specific details if applicable).

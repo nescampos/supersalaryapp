@@ -72,24 +72,6 @@ export const isAccountUpgraded = async (address: string) => {
   return false;
 };
 
-// Crear cuenta de sesión para la delegación
-export const createSessionAccount = async () => {
-  // En una implementación real, esta clave privada debería estar protegida
-  // y posiblemente generada dinámicamente para cada sesión
-  const privateKey = process.env.NEXT_PUBLIC_SESSION_PRIVATE_KEY || '0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80'; // Clave privada de ejemplo para desarrollo
-  const account = privateKeyToAccount(privateKey as `0x${string}`);
-
-  const sessionAccount = await toMetaMaskSmartAccount({
-    client: getPublicClient(),
-    implementation: Implementation.Hybrid,
-    deployParams: [account.address, [], [], []],
-    deploySalt: "0x",
-    signer: { account },
-  });
-
-  return sessionAccount;
-};
-
 // Solicitar permisos de transferencia periódica
 export const requestPeriodicTransferPermission = async (
   employeeAddress: string,
@@ -98,7 +80,6 @@ export const requestPeriodicTransferPermission = async (
   duration: number
 ) => {
   const walletClient = getWalletClient();
-  const sessionAccount = await createSessionAccount();
   
   // Convertir la cantidad a formato Wei con 6 decimales (para USDC)
   const periodAmount = parseUnits(amount, 6);
@@ -113,7 +94,7 @@ export const requestPeriodicTransferPermission = async (
       signer: {
         type: "account",
         data: {
-          address: sessionAccount.address,
+          address: employeeAddress,
         },
       },
       permission: {

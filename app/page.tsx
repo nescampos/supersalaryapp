@@ -17,7 +17,7 @@ export default function Home() {
               priority
             />
             <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
-              My Salary App
+              Super Salary App
             </h1>
           </div>
           <p className="text-lg text-gray-600 dark:text-gray-300 text-center md:text-right">
@@ -106,7 +106,7 @@ export default function Home() {
         </div>
 
         <footer className="mt-12 text-center text-gray-600 dark:text-gray-400 text-sm">
-          <p>© {new Date().getFullYear()} My Salary App. Secure salary management with MetaMask.</p>
+          <p>© {new Date().getFullYear()} Super Salary App. Secure salary management with MetaMask.</p>
         </footer>
       </main>
     </div>
