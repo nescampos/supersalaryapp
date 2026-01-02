@@ -1,64 +1,98 @@
 import Image from "next/image";
+import WalletConnection from './components/WalletConnection';
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black p-4">
+      <main className="w-full max-w-6xl flex flex-col items-center justify-between py-8">
+        <div className="w-full flex flex-col md:flex-row items-center justify-between mb-12">
+          <div className="flex items-center mb-6 md:mb-0">
+            <Image
+              className="dark:invert mr-4"
+              src="/next.svg"
+              alt="Next.js logo"
+              width={100}
+              height={20}
+              priority
+            />
+            <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+              My Salary App
+            </h1>
+          </div>
+          <p className="text-lg text-gray-600 dark:text-gray-300 text-center md:text-right">
+            Secure salary management with MetaMask
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="w-full flex flex-col lg:flex-row gap-8">
+          <div className="w-full lg:w-1/2 flex flex-col items-center justify-center">
+            <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4 text-center">
+              Company Wallet Connection
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6 text-center max-w-md">
+              Connect your company wallet to securely delegate token access to employees as part of their compensation.
+            </p>
+            <div className="w-full max-w-md">
+              <WalletConnection />
+            </div>
+          </div>
+
+          <div className="w-full lg:w-1/2 flex flex-col justify-center">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+              <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-4">
+                How It Works
+              </h3>
+              <div className="space-y-4">
+                <div className="flex items-start">
+                  <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-4">
+                    <span className="text-blue-600 dark:text-blue-300 font-bold">1</span>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-800 dark:text-white">Connect Wallet</h4>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">
+                      Connect your company's MetaMask wallet to the platform
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-4">
+                    <span className="text-blue-600 dark:text-blue-300 font-bold">2</span>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-800 dark:text-white">Configure Delegations</h4>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">
+                      Set up token delegations for your employees as part of their salary
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start">
+                  <div className="bg-blue-100 dark:bg-blue-900 p-2 rounded-full mr-4">
+                    <span className="text-blue-600 dark:text-blue-300 font-bold">3</span>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-800 dark:text-white">Manage Access</h4>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">
+                      Control and monitor token access permissions for each employee
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 rounded-xl shadow-lg mt-6 text-white">
+              <h3 className="text-xl font-semibold mb-2">Secure & Transparent</h3>
+              <p className="text-blue-100">
+                All salary delegations are recorded on the blockchain for complete transparency and security.
+              </p>
+            </div>
+          </div>
         </div>
+
+        <footer className="mt-12 text-center text-gray-600 dark:text-gray-400 text-sm">
+          <p>© {new Date().getFullYear()} My Salary App. Secure salary management with MetaMask.</p>
+        </footer>
       </main>
     </div>
   );
