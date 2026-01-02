@@ -5,7 +5,8 @@ import { useWallet } from '../context/WalletContext';
 import {
   requestPeriodicTransferPermission,
   isAccountUpgraded,
-  createTransferCalldata
+  createTransferCalldata,
+  upgradeToSmartAccount
 } from '../services/tokenDelegationService';
 
 const TokenDelegation = () => {
@@ -15,6 +16,7 @@ const TokenDelegation = () => {
   const [period, setPeriod] = useState('86400'); // 1 día en segundos
   const [duration, setDuration] = useState('604800'); // 1 semana en segundos
   const [isDelegating, setIsDelegating] = useState(false);
+  const [isCheckingUpgrade, setIsCheckingUpgrade] = useState(false);
   const [delegationResult, setDelegationResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,9 +36,9 @@ const TokenDelegation = () => {
 
     try {
       // Verificar si la cuenta está actualizada a Smart Account
-      const isUpgraded = await isAccountUpgraded(account!);
-      if (!isUpgraded) {
-        throw new Error('Your account needs to be upgraded to a Smart Account to use this feature. Please update your MetaMask to the latest version.');
+      const isUpgradedResult = await isAccountUpgraded(account!);
+      if (!isUpgradedResult) {
+        throw new Error('Your account needs to be upgraded to a Smart Account to use this feature. Please upgrade your account using the button below.');
       }
 
       // Solicitar permisos de transferencia periódica
@@ -60,6 +62,35 @@ const TokenDelegation = () => {
     }
   };
 
+  const handleUpgradeAccount = async () => {
+    setIsCheckingUpgrade(true);
+    setError(null);
+
+    try {
+      // Verificar si la cuenta ya es una Smart Account
+      const isUpgradedResult = await isAccountUpgraded(account!);
+
+      if (isUpgradedResult) {
+        setError('Your account is already a Smart Account!');
+      } else {
+        // Llamar a la función para actualizar la cuenta a Smart Account
+        await upgradeToSmartAccount(account!);
+        // Verificar nuevamente si la actualización fue exitosa
+        const updatedStatus = await isAccountUpgraded(account!);
+        if (updatedStatus) {
+          setError('Your account has been successfully upgraded to a Smart Account! You can now delegate tokens.');
+        } else {
+          setError('Account upgrade may still be processing. Please try again in a moment.');
+        }
+      }
+    } catch (err: any) {
+      console.error('Upgrade error:', err);
+      setError(err.message || 'Failed to upgrade account. Please make sure you have MetaMask Flask installed.');
+    } finally {
+      setIsCheckingUpgrade(false);
+    }
+  };
+
   return (
     <div className="w-full max-w-2xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-white">
@@ -78,7 +109,18 @@ const TokenDelegation = () => {
 
       {error && (
         <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
-          Error: {error}
+          <div className="flex justify-between items-start">
+            <span>Error: {error}</span>
+            {error.includes('Smart Account') && (
+              <button
+                onClick={handleUpgradeAccount}
+                disabled={isCheckingUpgrade}
+                className="ml-2 px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-sm rounded transition"
+              >
+                {isCheckingUpgrade ? 'Checking...' : 'Upgrade Account'}
+              </button>
+            )}
+          </div>
         </div>
       )}
 

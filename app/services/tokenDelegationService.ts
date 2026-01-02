@@ -1,3 +1,5 @@
+'use client';
+
 import { createWalletClient, custom } from 'viem';
 import { erc7715ProviderActions } from '@metamask/smart-accounts-kit/actions';
 import { createPublicClient, http, Chain } from 'viem';
@@ -143,4 +145,29 @@ export const createTransferCalldata = (recipient: string, amount: string) => {
     args: [recipient as `0x${string}`, parsedAmount],
     functionName: 'transfer',
   });
+};
+
+// Función para convertir la cuenta a Smart Account
+export const upgradeToSmartAccount = async (signerAddress: string) => {
+  const walletClient = getWalletClient();
+  const publicClient = getPublicClient();
+
+  try {
+    // Crear la Smart Account con el signer actual
+    const smartAccount = await toMetaMaskSmartAccount({
+      client: publicClient,
+      implementation: Implementation.Stateless7702,
+      address: signerAddress as `0x${string}`, // Address of the upgraded EOA
+      signer: { walletClient },
+    });
+
+    return {
+      success: true,
+      smartAccountAddress: smartAccount.address,
+      message: 'Smart Account created successfully'
+    };
+  } catch (error) {
+    console.error('Error upgrading to Smart Account:', error);
+    throw error;
+  }
 };
